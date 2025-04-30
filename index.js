@@ -71,7 +71,7 @@ function help(answer) {
 
 function operate() {
   clear_display();
-  console.log(`Evaluate : ${expression}`);
+  //console.log(`Evaluate : ${expression}`);
 
   let nums;
   let answer;
@@ -113,7 +113,7 @@ function add_to_display(val) {
 }
 
 function parse_display() {
-  console.log(display);
+  //console.log(display);
 }
 
 function sleep(ms) {
@@ -121,7 +121,7 @@ function sleep(ms) {
 }
 
 async function add_to_expression(val) {
-  console.log("val = " + val);
+  //console.log("val = " + val);
   let is_operator = OPERATORS.includes(val);
   if (operator_present && is_operator) {
     operate();
@@ -153,7 +153,7 @@ function multiply(alpha, beta = 1) {
 
 function divide(alpha, beta = 1) {
   if (+beta === 0) {
-    return "Blackhole";
+    return "BLACKHOLE!";
   }
   return +alpha / +beta;
 }

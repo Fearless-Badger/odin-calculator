@@ -1,17 +1,24 @@
 h1 {
-  color: red;
+  color: white;
   padding: 0;
   margin: 0;
+}
+
+P {
+  color: white;
 }
 
 .header {
   height: 125px;
   background-color: #222222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .calculator_container {
   /* basic style */
-  background-color: #1DCD9F;
+  background-color: #1dcd9f;
   flex-grow: 1;
 
   /*Flexbox styling*/
@@ -21,68 +28,82 @@ h1 {
   align-items: center;
 }
 
-.calculator{
-    height: 500px;
-    width: 504px;
-    border: 2px solid black;
+.calculator {
+  height: 500px;
+  width: 510px;
+  border: 5px solid black;
 
-    /*Calculator flex*/
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+  /*Calculator flex*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.calculator .display{
-    flex: auto;
-    width: 100%;
-    border-bottom: 2px solid black;
+.calculator .display {
+  flex: auto;
+  width: 100%;
+  font-size: 50px;
+  font-weight: 800;
+  border-bottom: 5px solid black;
 
-    /*Display flex*/
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  /*Display flex*/
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.calculator .buttons{
-    display: flex;
-    flex-direction: row;
+.calculator .buttons {
+  display: flex;
+  flex-direction: row;
 }
 
-.calculator .buttons .nums{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 300px;
+.calculator .buttons .nums {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 300px;
 }
 
-.calculator .buttons .operators{
-    display: flex;
-    flex-direction: column;
+.calculator .buttons .operators {
+  display: flex;
+  flex-direction: column;
 }
 
-.calculator .buttons .controller{
-    display: flex;
-    flex-direction: column;
+.calculator .buttons .controller {
+  display: flex;
+  flex-direction: column;
 }
 
-.controller button{
-    height: 200px;
+.controller button {
+  height: 200px;
 }
 
-button{
-    height: 100px;
-    width: 100px;
+button {
+  height: 100px;
+  width: 100px;
+  background-color: rgb(19, 136, 136);
+  border: 1px solid black;
+  cursor: pointer;
+  color: rgb(237, 240, 232);
+  font-size: 20px;
 }
 
-.equal{
-    height: 100px;
-    width: 200px;
+.equal {
+  height: 100px;
+  width: 200px;
 }
 
 .footer {
   height: 100px;
-  background-color: cadetblue;
+  background-color: #0e6951;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer p {
+  font-size: large;
 }
 
 /*
