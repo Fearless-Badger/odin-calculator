@@ -22,13 +22,62 @@ h1 {
 }
 
 .calculator{
-    height: 600px;
-    width: 600px;
+    height: 500px;
+    width: 504px;
     border: 2px solid black;
+
+    /*Calculator flex*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .calculator .display{
-    height: 50px;
+    flex: auto;
+    width: 100%;
+    border-bottom: 2px solid black;
+
+    /*Display flex*/
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.calculator .buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.calculator .buttons .nums{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 300px;
+}
+
+.calculator .buttons .operators{
+    display: flex;
+    flex-direction: column;
+}
+
+.calculator .buttons .controller{
+    display: flex;
+    flex-direction: column;
+}
+
+.controller button{
+    height: 200px;
+}
+
+button{
+    height: 100px;
+    width: 100px;
+}
+
+.equal{
+    height: 100px;
+    width: 200px;
 }
 
 .footer {
