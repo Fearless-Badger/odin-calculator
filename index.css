@@ -1,55 +1,61 @@
 h1 {
-    color: red;
-    padding: 0;
-    margin: 0;
+  color: red;
+  padding: 0;
+  margin: 0;
 }
 
-.header{
-    height: 125px;
-    background-color: blueviolet;
+.header {
+  height: 125px;
+  background-color: blueviolet;
 }
 
-.calculator_container{
-    /* basic style */
-    background-color: bisque;
-    flex-grow: 1;
+.calculator_container {
+  /* basic style */
+  background-color: bisque;
+  flex-grow: 1;
 
-    /*Flexbox styling*/
-
-    
-
-
+  /*Flexbox styling*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.footer{
-    height: 100px;
-    background-color:cadetblue;
+.calculator{
+    height: 600px;
+    width: 600px;
+    border: 2px solid black;
 }
 
+.calculator .display{
+    height: 50px;
+}
 
+.footer {
+  height: 100px;
+  background-color: cadetblue;
+}
 
 /*
     Starter CSS below
 */
 
-
-
-body{
-    height: inherit;
-    padding: 0;
-    margin: 0;
-    border: none;
-    display: flex;
-    flex-direction: column;
+body {
+  height: inherit;
+  padding: 0;
+  margin: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
 }
 
 html {
-    box-sizing: border-box;
-    height: 100%;
+  box-sizing: border-box;
+  height: 100%;
 }
 
-*, 
+*,
 *::after,
 *::before {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
