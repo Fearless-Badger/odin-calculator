@@ -6,12 +6,12 @@ h1 {
 
 .header {
   height: 125px;
-  background-color: blueviolet;
+  background-color: #222222;
 }
 
 .calculator_container {
   /* basic style */
-  background-color: bisque;
+  background-color: #1DCD9F;
   flex-grow: 1;
 
   /*Flexbox styling*/
