@@ -42,13 +42,15 @@ const CLEAR = CONTROLLER_ARRAY[1];
 DELETE.addEventListener("click", () => display_delete());
 CLEAR.addEventListener("click", () => clear_memory());
 
+// calculator functions
+
 function clear_display() {
   display = "";
   DISPLAY_ELEMENT.textContent = "";
 }
 
 function display_delete() {
-  if (display && result_displayed===false) {
+  if (display && result_displayed === false) {
     display = display.slice(0, display.length - 1);
     expression = expression.slice(0, expression.length - 1);
     DISPLAY_ELEMENT.textContent = display;
@@ -57,8 +59,8 @@ function display_delete() {
 
 function clear_memory() {
   result_displayed = false;
-  operator="";
-  ans ='';
+  operator = "";
+  ans = "";
   clear_display();
   expression = "";
   operator_present = false;
@@ -111,7 +113,7 @@ function operate() {
 }
 
 function add_to_display(val) {
-  if (result_displayed){
+  if (result_displayed && operator_present===false) {
     clear_memory();
   }
   display += val;
@@ -137,13 +139,12 @@ function add_to_expression(val) {
     operator_present = true;
     operator = val;
     expression = ans + operator;
-    DISPLAY_ELEMENT.textContent = ans;
   } else if (is_operator) {
     operator = val;
     clear_display();
     operator_present = true;
     expression += val;
-  } else if (operator_present===false && ans==="" && is_operator) {
+  } else if (operator_present === false && ans === "" && is_operator) {
     DISPLAY_ELEMENT.textContent = "Enter an operator";
   } else {
     expression += val;
