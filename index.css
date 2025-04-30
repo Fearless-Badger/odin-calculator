@@ -55,7 +55,7 @@ P {
 
   /*Display flex*/
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
 }
 
@@ -93,6 +93,11 @@ button {
   cursor: pointer;
   color: rgb(237, 240, 232);
   font-size: 20px;
+  transition-duration: 0.2s;
+}
+
+button:hover {
+  background-color: #1dcd9f;
 }
 
 .equal {

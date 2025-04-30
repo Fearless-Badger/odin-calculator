@@ -126,7 +126,7 @@ async function add_to_expression(val) {
   if (operator_present && is_operator) {
     operate();
     operator = val;
-    operator_present = true;
+    //operator_present = true;
     expression = ans + operator;
     DISPLAY_ELEMENT.textContent = ans;
   } else if (is_operator) {
