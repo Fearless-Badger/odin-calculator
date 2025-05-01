@@ -270,3 +270,31 @@ function divide(alpha, beta = 1) {
   }
   return +alpha / +beta;
 }
+
+
+// Keyboard event listeners
+
+const PAGE = document.querySelector("body");
+const RAW_OPER_STRINGS = ["+", "-", "*", "/"];
+
+PAGE.addEventListener("keydown", (event) => handle_key_press(event));
+
+function handle_key_press(key_press){
+  const key = key_press.key;
+
+  if (!isNaN(+key)){
+    num_pressed(key);
+  }
+  else if (key === "Delete"){
+    delete_pressed();
+  } 
+  else if (key === "Backspace"){
+    clear_memory();
+  }
+  else if (key === "=" || key === "Enter"){
+    equal_pressed();
+  }
+  else if (RAW_OPER_STRINGS.includes(key)){
+    operator_pressed(key);
+  }
+}
