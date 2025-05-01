@@ -1,23 +1,14 @@
-// Calculator Logic
-let operator_present = false;
-let operator = "";
-let expression = "";
-const OPERATORS = ["+", "-", "*", "/"];
-let ans = "";
-let result_displayed = false;
-
-// Display DOM variables
+// Display DOM variable
 const DISPLAY_ELEMENT = document.querySelector(".display");
-let display = document.querySelector(".display").textContent;
 
 // Number DOM variables, add event listeners
 const NUMBER_BUTTONS = Array.from(document.querySelectorAll(".nums button"));
 
 NUMBER_BUTTONS.slice(0, NUMBER_BUTTONS.length - 1).map((element) => {
-  element.addEventListener("click", () => add_to_display(element.textContent));
+  element.addEventListener("click", () => num_pressed(element.textContent));
 });
 
-NUMBER_BUTTONS.slice(-1)[0].addEventListener("click", () => operate());
+NUMBER_BUTTONS.slice(-1)[0].addEventListener("click", () => equal_pressed());
 
 // Operator listeners
 
@@ -26,7 +17,7 @@ const OPERATOR_BUTTONS = Array.from(
 );
 OPERATOR_BUTTONS.map((element) => {
   element.addEventListener("click", () => {
-    add_to_expression(element.textContent);
+    operator_pressed(element.textContent);
   });
 });
 
@@ -39,117 +30,123 @@ const CONTROLLER_ARRAY = Array.from(
 const DELETE = CONTROLLER_ARRAY[0];
 const CLEAR = CONTROLLER_ARRAY[1];
 
-DELETE.addEventListener("click", () => display_delete());
+DELETE.addEventListener("click", () => delete_pressed());
 CLEAR.addEventListener("click", () => clear_memory());
 
 // calculator functions
 
+let alpha = "";
+let beta = "";
+const OPERATORS = ["+", "-", "*", "/"];
+let operator = "";
+let displaying_result = false;
+
 function clear_display() {
-  display = "";
   DISPLAY_ELEMENT.textContent = "";
 }
 
-function display_delete() {
-  if (display && result_displayed === false) {
-    display = display.slice(0, display.length - 1);
-    expression = expression.slice(0, expression.length - 1);
-    DISPLAY_ELEMENT.textContent = display;
+// function append_to_display(foo) {
+//   if (isNaN(+DISPLAY_ELEMENT.textContent)) {
+//     clear_display();
+//   }
+//   DISPLAY_ELEMENT.textContent += foo;
+// }
+
+function flash_to_display(foo) {
+  if (isNaN(+DISPLAY_ELEMENT.textContent)) {
+    clear_display();
   }
+  else if (displaying_result === true) {
+    clear_display();
+    displaying_result = false;
+  }
+  DISPLAY_ELEMENT.textContent = foo;
+}
+
+function operate(a, func, b = "") {
+  a = +a;
+  b = +b;
+
+  clear_display();
+
+  console.log(`OPERATE: ${a} ${func} ${b}`);
+
+  let answer;
+  switch (func) {
+    case "+":
+      answer = add(a, b);
+      break;
+    case "-":
+      answer = subtract(a, b);
+      break;
+    case "*":
+      answer = multiply(a, b);
+      break;
+    case "/":
+      answer = divide(a, b);
+      break;
+  }
+
+  
+  const rounded_answer = Number.isInteger(+answer) ? +answer : +answer.toFixed(2);
+
+  flash_to_display(rounded_answer);
+  displaying_result = true;
+  operator = "";
+
+  beta = "";
+  alpha = rounded_answer.toString();
+
+  return alpha;
+}
+
+function num_pressed(number) {
+  if (alpha === "") {
+    alpha += number;
+    flash_to_display(alpha);
+  } else if (alpha !== "" && operator === "" && beta === "") {
+    alpha += number;
+    flash_to_display(alpha);
+  } else if (alpha !== "" && operator !== "" && beta === "") {
+    beta += number;
+    flash_to_display(beta);
+  } else if (alpha !== "" && operator !== "" &&beta !== "") {
+    beta += number;
+    flash_to_display(beta);
+  }
+}
+
+function equal_pressed() {
+  if (!alpha) {
+    flash_to_display("Enter an expression!");
+  } else {
+    alpha = operate(alpha, operator, beta);
+  }
+}
+
+function operator_pressed(oper) {
+  if (alpha === "") {
+    flash_to_display("Enter an expression!");
+  } else if (alpha !== "" && beta === "") {
+    operator = oper;
+  } else if (alpha !== "" && beta !== "") {
+    alpha = operate(alpha, operator, beta);
+    operator = oper;
+  }
+}
+
+function delete_pressed() {
+  
 }
 
 function clear_memory() {
-  result_displayed = false;
+  DISPLAY_ELEMENT.textContent = "";
+  alpha = "";
+  beta = "";
   operator = "";
-  ans = "";
-  clear_display();
-  expression = "";
-  operator_present = false;
 }
 
-function help(answer) {
-  DISPLAY_ELEMENT.textContent = answer;
-  expression = answer;
-  ans = answer;
-  operator = "";
-  result_displayed = true;
-}
-
-function operate() {
-  clear_display();
-  //console.log(`Evaluate : ${expression}`);
-
-  if (!expression) {
-    DISPLAY_ELEMENT.textContent = "Enter an expression!";
-  } else if (expression && !operator_present) {
-    DISPLAY_ELEMENT.textContent = expression;
-  } else {
-    let nums;
-    let answer;
-    switch (operator) {
-      case "+":
-        nums = expression.split("+");
-        answer = add(nums[0], nums[1]).toFixed(2);
-        help(answer);
-        break;
-      case "-":
-        nums = expression.split("-");
-        answer = subtract(nums[0], nums[1]).toFixed(2);
-        help(answer);
-        break;
-      case "*":
-        nums = expression.split("*");
-        answer = multiply(nums[0], nums[1]).toFixed(2);
-        help(answer);
-        break;
-      case "/":
-        nums = expression.split("/");
-        answer = divide(nums[0], nums[1]).toFixed(2);
-        help(answer);
-        break;
-    }
-  }
-
-  operator_present = false;
-}
-
-function add_to_display(val) {
-  if (result_displayed && operator_present===false) {
-    clear_memory();
-  }
-  display += val;
-  DISPLAY_ELEMENT.textContent = display;
-  add_to_expression(val);
-}
-
-function parse_display() {
-  //console.log(display);
-}
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-function add_to_expression(val) {
-  //console.log("val = " + val);
-  let is_operator = OPERATORS.includes(val);
-  if (expression === "" && is_operator) {
-    DISPLAY_ELEMENT.textContent = "Enter a number first!";
-  } else if (operator_present && is_operator) {
-    operate();
-    operator_present = true;
-    operator = val;
-    expression = ans + operator;
-  } else if (is_operator) {
-    operator = val;
-    clear_display();
-    operator_present = true;
-    expression += val;
-  } else if (operator_present === false && ans === "" && is_operator) {
-    DISPLAY_ELEMENT.textContent = "Enter an operator";
-  } else {
-    expression += val;
-  }
-}
+// Operator functions
 
 function add(alpha, beta = 0) {
   return +alpha + +beta;
