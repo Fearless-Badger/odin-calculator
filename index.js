@@ -189,6 +189,47 @@ function remove_last_char(arg) {
 
 // Operator style functions
 
+const PLUS = document.querySelector(".plus");
+const SUBTRACT = document.querySelector(".subtract");
+const MULTIPLY = document.querySelector(".multiply");
+const DIVIDE = document.querySelector(".divide");
+const OPER_BUTTONS = [PLUS, SUBTRACT, MULTIPLY, DIVIDE]
+
+let un_selected_color = "rgb(19, 136, 136)";
+let selected_color = "#1dcd9f";
+
+function oper_to_element(string){
+  switch (string){
+    case "+":
+      return "plus";
+    case "-":
+      return "subtract";
+    case "*":
+      return "multiply";
+    case "/":
+      return "divide";
+  }
+}
+
+function show_operator_select(selected){
+  clear_all_operator_style();
+  let name = oper_to_element(selected);
+  for (let i = 0; i < OPER_BUTTONS.length ; i++){
+    if (OPER_BUTTONS[i].classList.contains(name)){
+      OPER_BUTTONS[i].classList.add("selected");
+      break;
+    }
+  }
+}
+
+function clear_all_operator_style(){
+  for (let i = 0; i < OPER_BUTTONS.length ; i++){
+    OPER_BUTTONS[i].classList.remove("selected");
+  }
+}
+
+
+
 // Operator functions
 
 function add(alpha, beta = 0) {
