@@ -40,6 +40,8 @@ let beta = "";
 const OPERATORS = ["+", "-", "*", "/"];
 let operator = "";
 let displaying_result = false;
+let prevent_alpha_delete = false;
+let prevent_opera_delete = false;
 
 function clear_display() {
   DISPLAY_ELEMENT.textContent = "";
@@ -55,8 +57,7 @@ function clear_display() {
 function flash_to_display(foo) {
   if (isNaN(+DISPLAY_ELEMENT.textContent)) {
     clear_display();
-  }
-  else if (displaying_result === true) {
+  } else if (displaying_result === true) {
     clear_display();
     displaying_result = false;
   }
@@ -87,18 +88,38 @@ function operate(a, func, b = "") {
       break;
   }
 
-  
-  const rounded_answer = Number.isInteger(+answer) ? +answer : +answer.toFixed(2);
+  const rounded_answer = Number.isInteger(+answer)
+    ? +answer
+    : +answer.toFixed(2);
 
   flash_to_display(rounded_answer);
   displaying_result = true;
   operator = "";
 
+  prevent_opera_delete = false;
   beta = "";
   alpha = rounded_answer.toString();
 
   return alpha;
 }
+
+// function num_pressed(number) {
+//   if (alpha === "") {
+//     alpha += number;
+//     flash_to_display(alpha);
+//   } else if (alpha !== "" && operator === "" && beta === "") {
+//     alpha += number;
+//     flash_to_display(alpha);
+//   } else if (alpha !== "" && operator !== "" && beta === "") {
+//     beta += number;
+//     prevent_opera_delete = true;
+//     flash_to_display(beta);
+//   } else if (alpha !== "" && operator !== "" && beta !== "") {
+//     beta += number;
+//     prevent_opera_delete = true;
+//     flash_to_display(beta);
+//   }
+// }
 
 function num_pressed(number) {
   if (alpha === "") {
@@ -107,11 +128,9 @@ function num_pressed(number) {
   } else if (alpha !== "" && operator === "" && beta === "") {
     alpha += number;
     flash_to_display(alpha);
-  } else if (alpha !== "" && operator !== "" && beta === "") {
+  } else {
     beta += number;
-    flash_to_display(beta);
-  } else if (alpha !== "" && operator !== "" &&beta !== "") {
-    beta += number;
+    prevent_opera_delete = true;
     flash_to_display(beta);
   }
 }
@@ -133,10 +152,23 @@ function operator_pressed(oper) {
     alpha = operate(alpha, operator, beta);
     operator = oper;
   }
+  prevent_alpha_delete = true;
 }
 
 function delete_pressed() {
-  
+  if (alpha === "" && beta === "" && operator == "") {
+  } else if (alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === true) {
+  } else if ( alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === false) {
+    alpha = remove_last_char(alpha);
+    flash_to_display(alpha);
+  } else if ( alpha !== "" && operator !== "" && beta === "" && prevent_opera_delete === false){
+    operator = remove_last_char(operator);
+  } else if ( alpha !== "" && operator !== "" && beta === "" && prevent_opera_delete === true){
+  }
+  else if ( alpha !== "" && operator !== "" && beta !== "" ){
+    beta = remove_last_char(beta);
+    flash_to_display(beta);
+  }
 }
 
 function clear_memory() {
@@ -144,7 +176,18 @@ function clear_memory() {
   alpha = "";
   beta = "";
   operator = "";
+  prevent_alpha_delete = false;
 }
+
+function remove_last_char(arg) {
+  if (arg.length === 0) {
+    console.log(`Can't remove char from "${arg}"`);
+  } else {
+    return arg.substring(0, arg.length - 1);
+  }
+}
+
+// Operator style functions
 
 // Operator functions
 
