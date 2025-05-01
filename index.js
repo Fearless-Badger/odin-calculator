@@ -41,7 +41,7 @@ const OPERATORS = ["+", "-", "*", "/"];
 let operator = "";
 let displaying_result = false;
 let prevent_alpha_delete = false;
-let prevent_opera_delete = false;
+let lock_num_input = false;
 
 function clear_display() {
   DISPLAY_ELEMENT.textContent = "";
@@ -86,6 +86,9 @@ function operate(a, func, b = "") {
     case "/":
       answer = divide(a, b);
       break;
+    case "":
+      answer = a;
+      break;
   }
 
   const rounded_answer = Number.isInteger(+answer)
@@ -97,32 +100,20 @@ function operate(a, func, b = "") {
   operator = "";
   clear_all_operator_style();
 
-  prevent_opera_delete = false;
   beta = "";
   alpha = rounded_answer.toString();
 
   return alpha;
 }
 
-// function num_pressed(number) {
-//   if (alpha === "") {
-//     alpha += number;
-//     flash_to_display(alpha);
-//   } else if (alpha !== "" && operator === "" && beta === "") {
-//     alpha += number;
-//     flash_to_display(alpha);
-//   } else if (alpha !== "" && operator !== "" && beta === "") {
-//     beta += number;
-//     prevent_opera_delete = true;
-//     flash_to_display(beta);
-//   } else if (alpha !== "" && operator !== "" && beta !== "") {
-//     beta += number;
-//     prevent_opera_delete = true;
-//     flash_to_display(beta);
-//   }
-// }
-
 function num_pressed(number) {
+  if (lock_num_input=== true){
+    return;
+  }
+  if (displaying_result === true && operator === "" ){
+    return;
+  }
+
   if (alpha === "") {
     alpha += number;
     flash_to_display(alpha);
@@ -131,7 +122,6 @@ function num_pressed(number) {
     flash_to_display(alpha);
   } else {
     beta += number;
-    prevent_opera_delete = true;
     flash_to_display(beta);
   }
 }
@@ -148,9 +138,11 @@ function operator_pressed(oper) {
   if (alpha === "") {
     flash_to_display("Enter an expression!");
   } else if (alpha !== "" && beta === "") {
+    lock_num_input = false;
     operator = oper;
     show_operator_select(operator);
   } else if (alpha !== "" && beta !== "") {
+    lock_num_input = false;
     alpha = operate(alpha, operator, beta);
     operator = oper;
     show_operator_select(operator);
@@ -160,14 +152,18 @@ function operator_pressed(oper) {
 
 function delete_pressed() {
   if (alpha === "" && beta === "" && operator == "") {
+    return;
   } else if (alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === true) {
+    clear_memory();
   } else if ( alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === false) {
     alpha = remove_last_char(alpha);
     flash_to_display(alpha);
-  } else if ( alpha !== "" && operator !== "" && beta === "" && prevent_opera_delete === false){
+  } else if ( alpha !== "" && operator !== "" && beta === ""){
     operator = remove_last_char(operator);
     clear_all_operator_style();
-  } else if ( alpha !== "" && operator !== "" && beta === "" && prevent_opera_delete === true){
+    if (alpha !== ""){
+      lock_num_input = true;
+    }
   }
   else if ( alpha !== "" && operator !== "" && beta !== "" ){
     beta = remove_last_char(beta);
@@ -182,6 +178,8 @@ function clear_memory() {
   beta = "";
   operator = "";
   prevent_alpha_delete = false;
+  displaying_result = false;
+  lock_num_input = false;
 }
 
 function remove_last_char(arg) {
@@ -234,9 +232,7 @@ function show_operator_select(selected){
 }
 
 function clear_all_operator_style(){
-  for (let i = 0; i < OPER_BUTTONS.length ; i++){
-    OPER_BUTTONS[i].classList.remove("selected");
-  }
+  OPER_BUTTONS.forEach(button => button.classList.remove("selected"));
 }
 
 
