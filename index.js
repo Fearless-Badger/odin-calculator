@@ -49,13 +49,6 @@ function clear_display() {
   DISPLAY_ELEMENT.textContent = "";
 }
 
-// function append_to_display(foo) {
-//   if (isNaN(+DISPLAY_ELEMENT.textContent)) {
-//     clear_display();
-//   }
-//   DISPLAY_ELEMENT.textContent += foo;
-// }
-
 function flash_to_display(foo) {
   if (isNaN(+DISPLAY_ELEMENT.textContent)) {
     clear_display();
@@ -116,16 +109,21 @@ function operate(a, func, b = "") {
 
 function num_pressed(number) {
   if (lock_num_input=== true){
-    return;
+    clear_memory();
   }
+
   if (displaying_result === true && operator === "" ){
-    return;
+    clear_memory();
   }
 
   if (alpha === "") {
+    if (number === "0"){
+      return;
+    }
     alpha += number;
     flash_to_display(alpha);
   } else if (alpha !== "" && operator === "" && beta === "") {
+
     alpha += number;
     flash_to_display(alpha);
   } else {
@@ -168,7 +166,7 @@ function delete_pressed() {
     return;
   } else if (alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === true) {
     return;
-    //clear_memory(); either clear calculator memory, or ignore
+    //clear_memory(); // either clear calculator memory, or ignore
   } else if ( alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === false) {
     alpha = remove_last_char(alpha);
     flash_to_display(alpha);
