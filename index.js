@@ -127,6 +127,9 @@ function num_pressed(number) {
     alpha += number;
     flash_to_display(alpha);
   } else {
+    if (number === "0" && beta === ""){
+      return;
+    }
     beta += number;
     flash_to_display(beta);
   }
