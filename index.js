@@ -65,8 +65,6 @@ function operate(a, func, b = "") {
 
   clear_display();
 
-  console.log(`OPERATE: ${a} ${func} ${b}`);
-
   let answer;
   switch (func) {
     case "+":
