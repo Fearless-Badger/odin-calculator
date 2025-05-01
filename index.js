@@ -154,7 +154,8 @@ function delete_pressed() {
   if (alpha === "" && beta === "" && operator == "") {
     return;
   } else if (alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === true) {
-    clear_memory();
+    return;
+    //clear_memory(); either clear calculator memory, or ignore
   } else if ( alpha !== "" && operator === "" && beta === "" && prevent_alpha_delete === false) {
     alpha = remove_last_char(alpha);
     flash_to_display(alpha);
