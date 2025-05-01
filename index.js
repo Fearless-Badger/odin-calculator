@@ -95,6 +95,7 @@ function operate(a, func, b = "") {
   flash_to_display(rounded_answer);
   displaying_result = true;
   operator = "";
+  clear_all_operator_style();
 
   prevent_opera_delete = false;
   beta = "";
@@ -148,9 +149,11 @@ function operator_pressed(oper) {
     flash_to_display("Enter an expression!");
   } else if (alpha !== "" && beta === "") {
     operator = oper;
+    show_operator_select(operator);
   } else if (alpha !== "" && beta !== "") {
     alpha = operate(alpha, operator, beta);
     operator = oper;
+    show_operator_select(operator);
   }
   prevent_alpha_delete = true;
 }
@@ -163,6 +166,7 @@ function delete_pressed() {
     flash_to_display(alpha);
   } else if ( alpha !== "" && operator !== "" && beta === "" && prevent_opera_delete === false){
     operator = remove_last_char(operator);
+    clear_all_operator_style();
   } else if ( alpha !== "" && operator !== "" && beta === "" && prevent_opera_delete === true){
   }
   else if ( alpha !== "" && operator !== "" && beta !== "" ){
@@ -172,6 +176,7 @@ function delete_pressed() {
 }
 
 function clear_memory() {
+  clear_all_operator_style();
   DISPLAY_ELEMENT.textContent = "";
   alpha = "";
   beta = "";
@@ -213,6 +218,12 @@ function oper_to_element(string){
 
 function show_operator_select(selected){
   clear_all_operator_style();
+
+  if (selected === ""){
+    console.log("Tried to select an operator, but it was not detected.")
+    return;
+  }
+
   let name = oper_to_element(selected);
   for (let i = 0; i < OPER_BUTTONS.length ; i++){
     if (OPER_BUTTONS[i].classList.contains(name)){
@@ -230,7 +241,7 @@ function clear_all_operator_style(){
 
 
 
-// Operator functions
+// Math functions
 
 function add(alpha, beta = 0) {
   return +alpha + +beta;
