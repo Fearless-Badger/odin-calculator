@@ -43,6 +43,8 @@ let displaying_result = false;
 let prevent_alpha_delete = false;
 let lock_num_input = false;
 
+let abort = false;
+
 function clear_display() {
   DISPLAY_ELEMENT.textContent = "";
 }
@@ -85,6 +87,12 @@ function operate(a, func, b = "") {
       break;
     case "/":
       answer = divide(a, b);
+      if (answer === "BLACKHOLE!"){
+        clear_memory();
+        flash_to_display(answer);
+        abort = true;
+        return "";
+      }
       break;
     case "":
       answer = a;
@@ -129,6 +137,7 @@ function num_pressed(number) {
 function equal_pressed() {
   if (!alpha) {
     flash_to_display("Enter an expression!");
+    clear_memory();
   } else {
     alpha = operate(alpha, operator, beta);
   }
@@ -144,8 +153,12 @@ function operator_pressed(oper) {
   } else if (alpha !== "" && beta !== "") {
     lock_num_input = false;
     alpha = operate(alpha, operator, beta);
+    if (abort === true){
+      abort = false;
+    } else {
     operator = oper;
     show_operator_select(operator);
+    }
   }
   prevent_alpha_delete = true;
 }
